@@ -1,0 +1,37 @@
+name: LifeTake
+version: 1.0
+main: xyz.ctbt.lifeTake.Main
+api-version: 1.21
+commands:
+  usehearttoken:
+    description: Spend 5 Life Tokens (Nether Stars) to gain an extra heart.
+    usage: /usehearttoken
+  uselifetoken:
+    description: Spend 3 Life Tokens (Nether Stars) to gain an extra life.
+    usage: /uselifetoken
+  givetoken:
+    description: Give a player a Life Token (Nether Star).
+    usage: /givetoken <player>
+    permission: lifetake.givetoken
+    permission-message: You do not have permission to use this command.
+  sethearts:
+    description: Set a player's heart count (1 to 20).
+    usage: /sethearts <player> <hearts>
+    permission: lifetake.sethearts
+    permission-message: You do not have permission to use this command.
+  setthreshold:
+    description: Set token thresholds for hearts and lives.
+    usage: /setthreshold <life|heart> <amount>
+    permission: lifetake.setthreshold
+    permission-message: You do not have permission to use this command.
+
+permissions:
+  lifetake.givetoken:
+    description: Allows players to give Life Tokens to others.
+    default: op
+  lifetake.sethearts:
+    description: Allows players to set hearts for others.
+    default: op
+  lifetake.setthreshold:
+    description: Allows players to set the threshold for token usage.
+    default: op

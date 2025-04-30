@@ -1,0 +1,7 @@
+# config.yml for LifeTake plugin
+
+# Number of tokens needed to gain a life
+life-token-cost: 3
+
+# Number of tokens needed to gain a heart
+heart-token-cost: 5
