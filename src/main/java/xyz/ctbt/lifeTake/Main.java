@@ -4,6 +4,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.ctbt.lifeTake.commands.*;
 import xyz.ctbt.lifeTake.data.PlayerDataManager;
 import xyz.ctbt.lifeTake.listeners.PlayerKillListener;
+import xyz.ctbt.lifeTake.listeners.PlayerJoinListener;
+import xyz.ctbt.lifeTake.util.TablistManager;
 
 public class Main extends JavaPlugin {
 
@@ -21,8 +23,14 @@ public class Main extends JavaPlugin {
 
         getLogger().info("LifeTake plugin enabled!");
 
-        getServer().getPluginManager().registerEvents(new PlayerKillListener(this, new PlayerDataManager()), this);
+        // Shared PlayerDataManager instance
+        PlayerDataManager dataManager = new PlayerDataManager();
 
+        // Register event listeners
+        getServer().getPluginManager().registerEvents(new PlayerKillListener(this, dataManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, dataManager), this);
+
+        // Register commands
         if (getCommand("usehearttoken") != null)
             getCommand("usehearttoken").setExecutor(new UseHeartTokenCommand());
         else
@@ -48,6 +56,8 @@ public class Main extends JavaPlugin {
         else
             getLogger().warning("Command 'setthreshold' not found in plugin.yml!");
 
+        // Update tablist for all players
+        TablistManager.updateAll(this);
     }
 
     public int getLifeTokenThreshold() {

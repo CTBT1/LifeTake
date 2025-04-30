@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.ctbt.lifeTake.Main;
 import xyz.ctbt.lifeTake.data.PlayerDataManager;
+import xyz.ctbt.lifeTake.util.TablistManager;
+
 
 public class PlayerKillListener implements Listener {
     private final Main plugin;
@@ -53,6 +55,7 @@ public class PlayerKillListener implements Listener {
                     attr.setBaseValue(currentMax - 2.0);
                     victim.setHealth(attr.getBaseValue());
                     victim.sendMessage(ChatColor.RED + "You lost a heart! Max hearts: " + (int)(attr.getBaseValue() / 2));
+                    TablistManager.updatePlayer(plugin, victim);
                 } else {
                     victim.sendMessage(ChatColor.YELLOW + "You are at the minimum heart limit (10 hearts).");
                 }
@@ -67,6 +70,7 @@ public class PlayerKillListener implements Listener {
             } else {
                 PlayerDataManager.setLives(plugin, victim, lives - 1);
                 victim.sendMessage(ChatColor.RED + "You lost a life. Lives remaining: " + (lives - 1));
+                TablistManager.updatePlayer(plugin, victim);
             }
         }, 20L);
     }
