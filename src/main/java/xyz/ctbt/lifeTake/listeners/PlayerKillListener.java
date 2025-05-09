@@ -25,24 +25,33 @@ public class PlayerKillListener implements Listener {
         this.dataManager = dataManager;
     }
 
-    private void giveToken(Player player) {
+    private void dropTokenAtLocation(Player victim) {
         ItemStack token = new ItemStack(Material.NETHER_STAR);
         ItemMeta meta = token.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(ChatColor.RED + "Life Token");
             token.setItemMeta(meta);
         }
-        player.getInventory().addItem(token);
+
+        // Drop the token at the victim's death location
+        var world = victim.getWorld();
+        var location = victim.getLocation();
+        var droppedItem = world.dropItemNaturally(location, token);
+
+        // Make it resistant to fire, lava, explosions, etc.
+        droppedItem.setInvulnerable(true);         // Immune to explosions, etc.
+        droppedItem.setFireTicks(0);               // Not burning
+        droppedItem.setGlowing(true);              // Optional: makes it visible
+        droppedItem.setPickupDelay(20);            // Slight delay before pickup
     }
+
 
     @EventHandler
     public void onPlayerKill(PlayerDeathEvent event) {
         Player victim = event.getEntity();
         Player killer = victim.getKiller();
 
-        if (killer != null && killer != victim) {
-            giveToken(killer);
-        }
+        dropTokenAtLocation(victim);
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (!victim.isOnline()) return;
