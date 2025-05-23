@@ -24,6 +24,15 @@ commands:
     usage: /setthreshold <life|heart> <amount>
     permission: lifetake.setthreshold
     permission-message: You do not have permission to use this command.
+  togglepvpimmunity:
+    description: Toggle PvP immunity after kills
+    usage: /togglepvpimmunity
+  toggleglobalpvp:
+    description: Toggles global PvP on or off
+    usage: /toggleglobalpvp
+  togglecrystal:
+    description: Toggle crystal PvP on or off
+    usage: /togglecrystal
 
 permissions:
   lifetake.givetoken:
@@ -34,4 +43,16 @@ permissions:
     default: op
   lifetake.setthreshold:
     description: Allows players to set the threshold for token usage.
+    default: op
+  lifetake.togglepvpimmunity:
+    description: toggles post death and kill immunity to pvp
+    default: op
+  lifetake.toggleglobalpvp:
+    description: Toggles global PvP on or off
+    default: op
+  lifetake.togglecrystal:
+    description: Toggle crystal PvP on or off
+    default: op
+  lifetake.admin:
+    description: Allows use of LifeTake admin commands
     default: op

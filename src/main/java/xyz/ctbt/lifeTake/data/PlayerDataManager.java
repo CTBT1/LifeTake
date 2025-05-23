@@ -8,7 +8,7 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.ctbt.lifeTake.Main;
 
 public class PlayerDataManager {
-    private static final int STARTING_LIVES = 6;
+    private static final int STARTING_LIVES = 10;
 
     private static NamespacedKey livesKey(Main plugin) {
         return new NamespacedKey(plugin, "lives");

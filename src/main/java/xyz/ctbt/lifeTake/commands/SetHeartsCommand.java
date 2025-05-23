@@ -11,11 +11,19 @@ public class SetHeartsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // Require player to execute the command
         if (!(sender instanceof Player player)) {
             sender.sendMessage("This command can only be executed by a player.");
             return true;
         }
 
+        // Require operator or specific permission
+        if (!player.isOp() && !player.hasPermission("lifetake.sethearts")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
+            return true;
+        }
+
+        // Validate arguments
         if (args.length != 2) {
             player.sendMessage(ChatColor.RED + "Usage: /sethearts <player> <hearts>");
             return true;
@@ -40,11 +48,10 @@ public class SetHeartsCommand implements CommandExecutor {
             return true;
         }
 
-        // Set the max health attribute (1 heart = 2 health points)
         double health = hearts * 2.0;
         targetPlayer.getAttribute(Attribute.MAX_HEALTH).setBaseValue(health);
 
-        // Clamp the player's current health to the new max
+        // Adjust current health if above new max
         if (targetPlayer.getHealth() > health) {
             targetPlayer.setHealth(health);
         }

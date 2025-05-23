@@ -8,6 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import xyz.ctbt.lifeTake.ConfigManager;
 import xyz.ctbt.lifeTake.Main;
 import xyz.ctbt.lifeTake.data.PlayerDataManager;
 
@@ -63,7 +64,7 @@ public class UseLifeTokenCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        int requiredTokens = plugin.getLifeTokenThreshold(); // Get threshold from config
+        int requiredTokens = ConfigManager.getLifeTokenThreshold(); // Get threshold from config
 
         if (countTokens(player) < requiredTokens) {
             player.sendMessage(ChatColor.RED + "You need " + requiredTokens + " Life Tokens to gain an extra life.");

@@ -1,5 +1,6 @@
 package xyz.ctbt.lifeTake.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -13,23 +14,24 @@ public class GiveTokenCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage("This command can only be executed by a player.");
-            return false;
+        // Permission check
+        if (!sender.hasPermission("lifetake.givetoken")) {
+            sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
+            return true;
         }
 
         if (args.length != 1) {
-            player.sendMessage("Usage: /givetoken <player>");
-            return false;
+            sender.sendMessage(ChatColor.RED + "Usage: /givetoken <player>");
+            return true;
         }
 
-        Player targetPlayer = player.getServer().getPlayer(args[0]);
-        if (targetPlayer == null) {
-            player.sendMessage(ChatColor.RED + "Player not found.");
-            return false;
+        Player targetPlayer = Bukkit.getPlayerExact(args[0]);
+        if (targetPlayer == null || !targetPlayer.isOnline()) {
+            sender.sendMessage(ChatColor.RED + "Player not found or not online.");
+            return true;
         }
 
-        // Give Life Token (Nether Star)
+        // Create the Life Token (Nether Star)
         ItemStack token = new ItemStack(Material.NETHER_STAR);
         ItemMeta meta = token.getItemMeta();
         if (meta != null) {
@@ -37,9 +39,10 @@ public class GiveTokenCommand implements CommandExecutor {
             token.setItemMeta(meta);
         }
 
+        // Give token
         targetPlayer.getInventory().addItem(token);
         targetPlayer.sendMessage(ChatColor.GREEN + "You have received a Life Token!");
-        player.sendMessage(ChatColor.GREEN + "You gave a Life Token to " + targetPlayer.getName());
+        sender.sendMessage(ChatColor.GREEN + "You gave a Life Token to " + targetPlayer.getName() + ".");
 
         return true;
     }
