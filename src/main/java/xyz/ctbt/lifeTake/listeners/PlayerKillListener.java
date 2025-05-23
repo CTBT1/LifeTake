@@ -37,18 +37,6 @@ public class PlayerKillListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        Player player = event.getEntity();
-
-        // Make sure this isn't triggered by teleporting from the End
-        if (player.getHealth() > 0.0 || player.getKiller() == null) {
-            return;
-        }
-
-        // Proceed with your life/heart reduction logic
-    }
-
-    @EventHandler
     public void onPlayerKill(PlayerDeathEvent event) {
         Player victim = event.getEntity();
         Player killer = victim.getKiller();

@@ -10,7 +10,6 @@ public class Main extends JavaPlugin {
 
     private int lifeTokenThreshold;
     private int heartTokenThreshold;
-    private EndTeleportListener endTeleportListener;
     private boolean crystalPvPEnabled = false;
 
     @Override
@@ -37,10 +36,8 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerRespawnListener(this), this);
         getServer().getPluginManager().registerEvents(new EndCrystalDamageBlocker(this), this);
         getServer().getPluginManager().registerEvents(new NetheriteDisabler(), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathHandler(this), this);
 
-        // Create and register EndTeleportListener properly
-        this.endTeleportListener = new EndTeleportListener(this);
-        getServer().getPluginManager().registerEvents(this.endTeleportListener, this);
 
         // Register commands
         if(getCommand("togglecrystal") != null)
@@ -109,7 +106,4 @@ public class Main extends JavaPlugin {
         crystalPvPEnabled = !crystalPvPEnabled;
     }
 
-    public EndTeleportListener getEndTeleportListener() {
-        return endTeleportListener;
-    }
 }
