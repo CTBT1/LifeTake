@@ -3,6 +3,10 @@ package xyz.ctbt.lifeTake;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.ctbt.lifeTake.commands.*;
 import xyz.ctbt.lifeTake.data.PlayerDataManager;
+import xyz.ctbt.lifeTake.items.EnchantedGoldenTotemAppleManager;
+import xyz.ctbt.lifeTake.items.GoldenTotemAppleManager;
+import xyz.ctbt.lifeTake.items.LifeTokenItem;
+import xyz.ctbt.lifeTake.items.TotemAppleManager;
 import xyz.ctbt.lifeTake.listeners.*;
 import xyz.ctbt.lifeTake.util.TablistManager;
 
@@ -37,7 +41,8 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EndCrystalDamageBlocker(this), this);
         getServer().getPluginManager().registerEvents(new NetheriteDisabler(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathHandler(this), this);
-
+        getServer().getPluginManager().registerEvents(new TotemUseListener(), this);
+        getServer().getPluginManager().registerEvents(new DamageImmunityListener(this), this);
 
         // Register commands
         if(getCommand("togglecrystal") != null)
@@ -74,22 +79,21 @@ public class Main extends JavaPlugin {
         if (getCommand("togglepvpimmunity") != null)
             getCommand("togglepvpimmunity").setExecutor(new TogglePvPImmunityCommand());
 
+        // Register custom items
+        new TotemAppleManager(this).register();
+        new GoldenTotemAppleManager(this).register();
+        new EnchantedGoldenTotemAppleManager(this).register();
+        LifeTokenItem.registerRecipe(this);
+
+
         // Update tablist for all players
         TablistManager.updateAll(this);
-    }
-
-    public int getLifeTokenThreshold() {
-        return lifeTokenThreshold;
     }
 
     public void setLifeTokenThreshold(int value) {
         this.lifeTokenThreshold = value;
         getConfig().set("life-token-threshold", value);
         saveConfig();
-    }
-
-    public int getHeartTokenThreshold() {
-        return heartTokenThreshold;
     }
 
     public void setHeartTokenThreshold(int value) {
